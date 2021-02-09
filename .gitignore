@@ -54,3 +54,4 @@ build.log
 build.log.old
 build/
 
+*.swp

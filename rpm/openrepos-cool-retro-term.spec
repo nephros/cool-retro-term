@@ -50,7 +50,6 @@ customizable, and reasonably lightweight.
 
 %build
 # >> build pre
-qmake-qt5
 # << build pre
 
 %qtc_qmake5 
@@ -69,11 +68,6 @@ rm -rf %{buildroot}
 # >> install post
 # Work around weird qmake behaviour: http://davmac.wordpress.com/2007/02/21/qts-qmake/
 make INSTALL_ROOT=%{buildroot} install
-
-desktop-file-install                            \
---dir=${RPM_BUILD_ROOT}%{_datadir}/applications \
-%{name}.desktop
-
 # << install post
 
 desktop-file-install --delete-original       \

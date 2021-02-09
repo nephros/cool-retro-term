@@ -42,14 +42,11 @@ variables:
     - rm -rf RPMS/*
     - pwd
     - ls -l
-    - mb2 -t SailfishOS-$SFOS_VERSION-$TARGET --specfile ./qmltermwidget/rpm/qmltermwidget.spec --no-fix-version prepare --enable-debug $BLDDIR | tee $OUTDIR/prepare.log
-    - pwd
-    - ls -l
-    - ls -l $CI_PROJECT_DIR
-    - cp -r rpm/* ${OUTDIR}/
+    # mb2 -t SailfishOS-$SFOS_VERSION-$TARGET --specfile ./qmltermwidget/rpm/qmltermwidget.spec --no-fix-version prepare --enable-debug $BLDDIR | tee $OUTDIR/prepare.log
+    - mb2 -t SailfishOS-$SFOS_VERSION-$TARGET --specfile ./rpm/$SPECNAME --no-fix-version prepare --enable-debug $BLDDIR | tee $OUTDIR/prepare.log
     # cp -r files/* qml/* rpm/
-    - mb2 -t SailfishOS-$SFOS_VERSION-$TARGET --specfile ./qmltermwidget/rpm/qmltermwidget.spec --no-fix-version build   --enable-debug $BLDDIR | tee $OUTDIR/build.log
-    - mb2 -t SailfishOS-$SFOS_VERSION-$TARGET --specfile ./rpm/$SPECFILE --no-fix-version build   --enable-debug $BLDDIR | tee $OUTDIR/build.log
+    # mb2 -t SailfishOS-$SFOS_VERSION-$TARGET --specfile ./qmltermwidget/rpm/qmltermwidget.spec --no-fix-version build   --enable-debug $BLDDIR | tee $OUTDIR/build.log
+    - mb2 -t SailfishOS-$SFOS_VERSION-$TARGET --specfile ./rpm/$SPECNAME --no-fix-version build   --enable-debug $BLDDIR | tee $OUTDIR/build.log
     - pwd
     - ls -l
     - ls -l $CI_PROJECT_DIR
