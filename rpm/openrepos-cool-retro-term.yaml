@@ -1,0 +1,39 @@
+Name: openrepos-cool-retro-term
+Summary: Cool Retro Terminal
+Version: 1.1.1
+Release: 1
+#Group: System/X11/Terminals
+Group: System/Console
+License: GPL-3.0+
+URL: https://github.com/Swordfish90/cool-retro-term
+Sources:
+    - "%{name}-%{version}.tar.xz"
+Description: |
+    cool-retro-term is a terminal emulator which tries to mimic the look and feel
+    of the old cathode tube screens. It has been designed to be eye-candy,
+    customizable, and reasonably lightweight.
+
+Requires:
+    - qt5-qtbase
+    - qt5-qtbase-gui
+    - qt5-qtdeclarative
+    - qt5-qtgraphicaleffects
+    - qt5-qtquickcontrols
+    - libqt5-qtquickcontrols
+    - libqt5-qtbase
+    - libQt5Gui5
+    - libqt5-qtdeclarative
+    - libqt5-qtgraphicaleffects
+PkgConfigBR:
+    - Qt5Core
+    - Qt5Declarative
+    - Qt5Gui
+    - Qt5Quick
+Configure: none
+Builder: make
+Files:
+    - "%doc gpl-2.0.txt gpl-3.0.txt README.md"
+    - "%{_bindir}/%{name}"
+    - "%{_libdir}/qt5/qml/"
+    - "%{_datadir}/applications/%{name}.desktop"
+    - "%{_datadir}/icons/hicolor/*/*/*"

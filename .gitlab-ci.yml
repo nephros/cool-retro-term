@@ -1,0 +1,199 @@
+stages:
+  - prepare
+  - build
+  - test
+  - deploy
+
+## defaults:
+variables:
+  #TARGET: "armv7hl"
+  TARGET: "i486" # is fastest
+
+.build-local:
+  image:
+      #name: "sailfishos-platform-sdk:3.3_3.4"
+      name: "coderus/sailfishos-platform-sdk-$TARGET:$SFOS_VERSION"
+      entrypoint: [""]
+  timeout: 1h 30m
+  tags:
+    - docker
+  cache:
+    tag: ${CI_PROJECT_NAME}_${CI_JOB_NAME}
+    key: ${CI_PROJECT_NAME}_${CI_COMMIT_REF_SLUG}
+    paths:
+      - "/cache/zypp"
+      - "$CI_PROJECT_DIR/myrepo"
+  variables:
+    GIT_SUBMODULE_STRATEGY: recursive
+    SFOS_VERSION: 3.4.0.24
+    TARGET: armv7hl
+    SPECNAME: openrepos-cool-retro-term.spec
+    YAMLNAME: openrepos-cool-retro-term.yaml
+  script:
+    - OUTDIR=$CI_PROJECT_DIR/output
+    - BLDDIR=~/build
+    - mkdir -p ${OUTDIR}
+    - mkdir -p ${BLDDIR}
+    - cp -a * ${BLDDIR}
+    - pushd ${BLDDIR}
+    - rm -rf RPMS/*
+    - mb2 -t SailfishOS-$SFOS_VERSION-$TARGET --specfile ./rpm/$SPECNAME --no-fix-version prepare --enable-debug $BLDDIR | tee $OUTDIR/prepare.log
+    - cp -r rpm/* ${OUTDIR}/
+    - cp -r files/* qml/* rpm/
+    - mb2 -t SailfishOS-$SFOS_VERSION-$TARGET --specfile ./rpm/$SPECNAME --no-fix-version build   --enable-debug $BLDDIR | tee $OUTDIR/build.log
+    - mkdir -p $OUTDIR/$SFOS_VERSION
+    - cp -r RPMS/* ${OUTDIR}/$SFOS_VERSION
+    - cp -r qml/*ts ${OUTDIR}/
+    - cp -r rpm/* ${OUTDIR}
+
+test:
+  #image: "coderus/sailfishos-platform-sdk:${SFOS_VERSION}"
+  image: "coderus/sailfishos-platform-sdk-base:${SFOS_VERSION}"
+  stage: test
+  retry: 2
+  variables:
+    TEST_URL: https://www.youtube.com/watch?v=tRZxM9rNyZ4
+  rules:
+    - if: $CI_COMMIT_BRANCH == 'sfos-fixes' && $CI_COMMIT_MESSAGE =~ "Release"
+      when: manual
+    - if: $CI_COMMIT_BRANCH == 'sfos-fixes' && $CI_COMMIT_MESSAGE =~ "merge tag"
+      when: always
+  needs:
+    - build-ytdl
+  dependencies:
+    - build-ytdl
+  environment:
+    name: ytdl-tester
+    url: https://www.youtube.com/watch?v=tRZxM9rNyZ4
+  before_script:
+    - mkdir -p ~/myrepo
+    - export OUTDIR=$CI_PROJECT_DIR/output
+    - |
+      export FROM_REPO=default
+      if [[ ! -e $OUTDIR ]] ; then
+        echo "WARNING: $OUTDIR does not exist, will not be able to test latest build"
+      else
+        if [[ -e  $OUTDIR/$SFOS_VERSION ]]; then
+          sudo zypper --non-interactive addrepo  $OUTDIR/$SFOS_VERSION new
+          sudo zypper --non-interactive modifyrepo --gpgcheck-allow-unsigned-package new
+          export FROM_REPO=new
+        else
+          echo "WARNING: OLD repo will be used!"
+          sudo zypper --non-interactive addrepo  RPMS/$SFOS_VERSION old
+          sudo zypper --non-interactive modifyrepo --gpgcheck-allow-unsigned-package old
+          export FROM_REPO=old
+        fi
+      fi
+    - sudo zypper --non-interactive addrepo https://sailfish.openrepos.net/nephros/personal/main openrepos-nephros
+    - sudo zypper --non-interactive modifyrepo --no-gpgcheck openrepos-nephros
+    # qmlscene segfaults so lets not:
+    # sudo zypper --ignore-unknown --non-interactive install                   --allow-unsigned-rpm qtchooser
+    # sudo zypper --ignore-unknown --non-interactive install                   --allow-unsigned-rpm qt5-qtdeclarative-qmlscene
+    - sudo zypper --ignore-unknown --non-interactive install                   --allow-unsigned-rpm openrepos-atomicparsley
+    - sudo zypper --ignore-unknown --non-interactive install --from $FROM_REPO --allow-unsigned-rpm youtube-dl
+  script:
+    - tmp=$(mktemp -d -t ytdltest_XXXXXX)
+    - echo $LANG $TERM $LC_ALL
+    - env LANG=en_GB.utf8 LC_ALL=C youtube-dl --version
+    - env LANG=en_GB.utf8 LC_ALL=C youtube-dl -f "worst" --restrict-filenames --simulate --embed-thumbnail -o ${tmp}/'%(title)s_%(id)s.%(ext)s' "${TEST_URL}"
+    - env LANG=en_GB.utf8 LC_ALL=C youtube-dl -f "worst" --restrict-filenames            --embed-thumbnail -o ${tmp}/'%(title)s_%(id)s.%(ext)s' "${TEST_URL}"
+    # qmlscene segfaults so lets not:
+    # env LANG=en_GB.utf8 LC_ALL=C qmlscene --quit youtube-dl-open-clipboard.qml | tee $OUTDIR/qmlscene-clip.log 2>&1
+
+
+#include:
+  #- https://gitlab.com/nobodyinperson/python3-openrepos-webclient/-/raw/v1.1.1/openrepos-upload-rpm.gitlab-ci.yml
+
+.openrepos-upload-rpm:
+   image: archlinux
+   variables:
+     OPENREPOS_USE_XVFB: "true"
+   environment:
+     name: OpenRepos
+     url: https://openrepos.net/content/$OPENREPOS_USERNAME/$OPENREPOS_UPLOAD_RPM_APPNAME
+   script:
+     - pacman -Syu --quiet --noconfirm git python-pip firefox geckodriver xorg-server-xvfb
+     - pip install openrepos-webclient
+     - python -m openrepos -vvv upload-rpm *.rpm
+
+.openrepos-upload-rpm-base:
+  extends: .openrepos-upload-rpm
+  stage: deploy
+  variables:
+    OPENREPOS_USERNAME: nephros
+    #OPENREPOS_PASSWORD: *** better define this via GitLab CI variables ***
+    OPENREPOS_UPLOAD_RPM_APPNAME: youtube-dl-2020
+    # These are needed if your app doesn't exist yet on OpenRepos
+    #OPENREPOS_UPLOAD_RPM_PLATFORM: SailfishOS    # or "Harmattan", etc...
+    #OPENREPOS_UPLOAD_RPM_CATEGORY: Applications  # or "Libraries", etc...
+  dependencies:
+    # auto-rebase
+    # build-arm
+    - [ "test" ]
+  needs:
+    #- auto-rebase
+    - [ "test" ]
+  rules:
+    - if: $CI_COMMIT_TAG
+      when: manual
+    - if: $CI_COMMIT_BRANCH == 'sfos-fixes' && '$CI_COMMIT_MESSAGE =~ "Release"'
+      when: manual
+    - if: $CI_COMMIT_BRANCH == 'sfos-fixes' && '$CI_COMMIT_MESSAGE =~ "autodeploy"'
+      when: manual
+  before_script:
+    - |
+      VER=$(awk -F ":" '/^Version: / {print $2}' rpm/$YAMLNAME | xargs echo)
+      REL=$(awk -F ":" '/^Release: / {print $2}' rpm/$YAMLNAME | xargs echo)
+      if [[ -e RPMS/$SFOS_VERSION/youtube-dl-$VER-$REL.$TARGET.rpm ]]; then 
+          cp -v RPMS/$SFOS_VERSION/youtube-dl-$VER-$REL.$TARGET.rpm .
+      else
+          echo RPMS/$SFOS_VERSION/youtube-dl-$VER-$REL.$TARGET.rpm not found
+      fi
+      if [[ -e $CI_PROJECT_DIR/output/$SFOS_VERSION/youtube-dl-$VER-$REL.$TARGET.rpm ]] ; then
+        cp -v $CI_PROJECT_DIR/output/$SFOS_VERSION/youtube-dl-$VER-$REL.$TARGET.rpm . 
+      else
+        echo $CI_PROJECT_DIR/output/$SFOS_VERSION/youtube-dl-$VER-$REL.$TARGET.rpm not found 
+      fi
+      if [[ $( ls *rpm | wc -l ) -le 0 ]]; then
+        echo  no rpms :/
+        exit 1
+      fi
+
+#.openrepos-upload-rpm-generic:
+#  extends: openrepos-upload-rpm
+#  variables:
+#    OPENREPOS_USERNAME: nephros
+#    #OPENREPOS_PASSWORD: *** better define this via GitLab CI variables ***
+#    OPENREPOS_UPLOAD_RPM_APPNAME: youtube-dl-2020
+#    # These are needed if your app doesn't exist yet on OpenRepos
+#    #OPENREPOS_UPLOAD_RPM_PLATFORM: SailfishOS    # or "Harmattan", etc...
+#    #OPENREPOS_UPLOAD_RPM_CATEGORY: Applications  # or "Libraries", etc...
+#  before_script:
+#    - |
+#      MYVER=$(awk -F ":" '/^Version: / {print $2}' rpm/$YAMLNAME | xargs echo)
+#      MYVER=$(awk -F ":" '/^Release: / {print $2}' rpm/$YAMLNAME | xargs echo)
+#
+#openrepos-upload-rpm-release:
+#  extends: .openrepos-upload-rpm-generic
+#  stage: deploy
+#  rules:
+#    - if: $CI_COMMIT_BRANCH == 'sfos-fixes' && '$CI_COMMIT_MESSAGE =~ "Release"'
+#    - changes:
+#      - "RPMS/$SFOS_VERSION/*.rpm"
+#      when: always
+# before_script:
+#    - if [[ -e RPMS/$SFOS_VERSION/youtube-dl-$VER-$REL.$TARGET.rpm ]]; then cp -v RPMS/$SFOS_VERSION/youtube-dl-$VER-$REL.$TARGET.rpm . ; fi
+#
+#openrepos-upload-rpm-rebase:
+#  extends: .openrepos-upload-rpm-generic
+#  stage: deploy
+#  dependencies:
+#    - auto-rebase
+#    - build-arm
+#  rules:
+#    - changes:
+#      - "$CI_PROJECT_DIR/output/$SFOS_VERSION/*.rpm"
+#      when: manual
+# before_script:
+#    - if [[ -e $CI_PROJECT_DIR/output/$SFOS_VERSION/youtube-dl-$VER-$REL.$TARGET.rpm ]] ; then  cp -v $CI_PROJECT_DIR/output/$SFOS_VERSION/youtube-dl-$VER-$REL.$TARGET.rpm . ; fi
+#

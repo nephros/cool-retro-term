@@ -47,3 +47,10 @@ cool-retro-term
 
 .DS_Store
 *.app
+
+# SFOS
+build-local.sh
+build.log
+build.log.old
+build/
+
