@@ -49,7 +49,6 @@ variables:
     - ls -l $CI_PROJECT_DIR
     - mkdir -p $OUTDIR/$SFOS_VERSION
     - cp -r RPMS/* ${OUTDIR}/$SFOS_VERSION
-    - cp -r qml/*ts ${OUTDIR}/
     - cp -r rpm/* ${OUTDIR}
 
 
