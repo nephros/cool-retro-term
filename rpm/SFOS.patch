@@ -1,0 +1,17 @@
+--- cool-retro-term.desktop_	2021-02-09 12:14:43.338467966 +0100
++++ cool-retro-term.desktop	2021-02-09 12:17:17.057875642 +0100
+@@ -1,11 +1,10 @@
+ [Desktop Entry]
++X-Nemo-Application-Type=qtquick2
+ Comment=Use the command line the old way
+-Exec=cool-retro-term
++Exec=openrepos-cool-retro-term
+ GenericName=Terminal emulator
+-Icon=cool-retro-term
++Icon=openrepos-cool-retro-term
+ Name=Cool Retro Term
+ Categories=System;TerminalEmulator;
+-StartupNotify=true
+ Terminal=false
+ Type=Application
+-Keywords=shell;prompt;command;commandline;

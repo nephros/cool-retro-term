@@ -6,8 +6,12 @@ Release: 1
 Group: System/Console
 License: GPL-3.0+
 URL: https://github.com/Swordfish90/cool-retro-term
+Macros:
+  - 'upstream_name;cool-retro-term'
 Sources:
     - "%{name}-%{version}.tar.xz"
+Patches:
+    - "SFOS.patch"
 Description: |
     cool-retro-term is a terminal emulator which tries to mimic the look and feel
     of the old cathode tube screens. It has been designed to be eye-candy,
@@ -33,7 +37,7 @@ Configure: none
 Builder: qtc5
 Files:
     - "%{_bindir}/%{name}"
-    #- "%{_libdir}/qt5/qml/"
+    - "%{_libdir}/qt5/qml/"
     - "%{_datadir}/%{name}/qml/"
     - "%{_datadir}/applications/%{name}.desktop"
     - "%{_datadir}/icons/hicolor/*/*/*"

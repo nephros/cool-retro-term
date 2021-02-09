@@ -7,6 +7,7 @@ Name:       openrepos-cool-retro-term
 
 # >> macros
 # << macros
+%define upstream_name cool-retro-term
 
 %{!?qtc_qmake:%define qtc_qmake %qmake}
 %{!?qtc_qmake5:%define qtc_qmake5 %qmake5}
@@ -20,6 +21,7 @@ License:    GPL-3.0+
 URL:        https://github.com/Swordfish90/cool-retro-term
 Source0:    %{name}-%{version}.tar.xz
 Source100:  openrepos-cool-retro-term.yaml
+Patch0:     SFOS.patch
 Requires:   qt5-qtbase
 Requires:   qt5-qtbase-gui
 Requires:   qt5-qtdeclarative
@@ -45,6 +47,8 @@ customizable, and reasonably lightweight.
 %prep
 %setup -q -n %{name}-%{version}
 
+# SFOS.patch
+%patch0 -p1
 # >> setup
 # << setup
 
@@ -68,6 +72,10 @@ rm -rf %{buildroot}
 # >> install post
 # Work around weird qmake behaviour: http://davmac.wordpress.com/2007/02/21/qts-qmake/
 make INSTALL_ROOT=%{buildroot} install
+# rename files
+mv %{buildroot}%{_bindir}/%{upstream_name} %{buildroot}%{_bindir}/%{name}
+mv %{buildroot}%{_datadir}/%{upstream_name} %{buildroot}%{_datadir}/%{name}
+mv %{buildroot}%{_datadir}/applications/%{upstream_name}.desktop %{buildroot}%{_datadir}/applications/%{name}.desktop
 # << install post
 
 desktop-file-install --delete-original       \
@@ -77,6 +85,7 @@ desktop-file-install --delete-original       \
 %files
 %defattr(-,root,root,-)
 %{_bindir}/%{name}
+%{_libdir}/qt5/qml/
 %{_datadir}/%{name}/qml/
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/icons/hicolor/*/*/*
