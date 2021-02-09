@@ -22,8 +22,6 @@ URL:        https://github.com/Swordfish90/cool-retro-term
 Source0:    %{name}-%{version}.tar.xz
 Source100:  openrepos-cool-retro-term.yaml
 Patch0:     SFOS.patch
-Requires:   pkgconfig(QtGui)
-Requires:   pkgconfig(QtQml)
 BuildRequires:  pkgconfig(Qt5Core)
 BuildRequires:  pkgconfig(Qt5Qml)
 BuildRequires:  pkgconfig(Qt5Gui)
