@@ -29,6 +29,12 @@ variables:
     TARGET: armv7hl
     SPECNAME: openrepos-cool-retro-term.spec
     YAMLNAME: openrepos-cool-retro-term.yaml
+  before_script:
+    - pwd
+    - ls -l
+    - ls -l $CI_PROJECT_DIR
+    - mkdir -p qmltermwidget/rpm/
+    - cp $CI_PROJECT_DIR/cool-retro-term/rpm/qmltermwidget.spec qmltermwidget/rpm/
   script:
     - OUTDIR=$CI_PROJECT_DIR/output
     - BLDDIR=~/build
@@ -37,8 +43,6 @@ variables:
     - cp -r $CI_PROJECT_DIR ${BLDDIR}
     - pushd ${BLDDIR}
     - rm -rf RPMS/*
-    - mkdir -p qmltermwidget/rpm/
-    - cp rpm/qmltermwidget.spec qmltermwidget/rpm/
     - mb2 -t SailfishOS-$SFOS_VERSION-$TARGET --specfile ./rpm/$SPECNAME --no-fix-version prepare --enable-debug $BLDDIR | tee $OUTDIR/prepare.log
     - cp -r rpm/* ${OUTDIR}/
     # cp -r files/* qml/* rpm/

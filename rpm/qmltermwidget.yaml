@@ -1,0 +1,20 @@
+Name: qmltermwidget
+Summary: QML Terminal Widget
+Version: 1.0
+Release: 0
+Group: Qt/Qt
+License: GPL-2.0+
+URL: https://github.com/Swordfish90/qmltermwidget
+Sources:
+    - "%{name}-%{version}.tar.xz"
+Description: QMLTermWidget is a projekt to enable developers to embed a terminal emulator in QML-based applications.
+
+PkgConfigBR:
+    - Qt5Core
+    - Qt5Qml
+    - Qt5Gui
+    - Qt5Quick
+Configure: none
+Builder: qtc5
+Files:
+    - "%{_libdir}/qt5/qml/"
