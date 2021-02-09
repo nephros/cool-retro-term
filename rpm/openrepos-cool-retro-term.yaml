@@ -18,16 +18,8 @@ Description: |
     customizable, and reasonably lightweight.
 
 Requires:
-    - qt5-qtbase
-    - qt5-qtbase-gui
-    - qt5-qtdeclarative
-    - qt5-qtgraphicaleffects
-    - qt5-qtquickcontrols
-    - libqt5-qtquickcontrols
-    - libqt5-qtbase
-    - libQt5Gui5
-    - libqt5-qtdeclarative
-    - libqt5-qtgraphicaleffects
+    - pkgconfig(QtGui)
+    - pkgconfig(QtQml)
 PkgConfigBR:
     - Qt5Core
     - Qt5Qml
