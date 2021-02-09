@@ -36,7 +36,6 @@ QMLTermWidget is a projekt to enable developers to embed a terminal emulator in 
 
 %build
 # >> build pre
-qmake-qt5
 # << build pre
 
 %qtc_qmake5 

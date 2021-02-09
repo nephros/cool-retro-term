@@ -82,9 +82,8 @@ desktop-file-install --delete-original       \
 
 %files
 %defattr(-,root,root,-)
-%doc gpl-2.0.txt gpl-3.0.txt README.md
 %{_bindir}/%{name}
-%{_libdir}/qt5/qml/
+%{_datadir}/%{name}/qml/
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/icons/hicolor/*/*/*
 # >> files

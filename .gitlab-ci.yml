@@ -30,23 +30,29 @@ variables:
     SPECNAME: openrepos-cool-retro-term.spec
     YAMLNAME: openrepos-cool-retro-term.yaml
   before_script:
-    - pwd
-    - ls -l
-    - ls -l $CI_PROJECT_DIR
-    - mkdir -p qmltermwidget/rpm/
-    - cp $CI_PROJECT_DIR/cool-retro-term/rpm/qmltermwidget.spec qmltermwidget/rpm/
+    - mkdir -p $CI_PROJECT_DIR/qmltermwidget/rpm/
+    - cp $CI_PROJECT_DIR/rpm/qmltermwidget.spec $CI_PROJECT_DIR/qmltermwidget/rpm/
   script:
     - OUTDIR=$CI_PROJECT_DIR/output
     - BLDDIR=~/build
     - mkdir -p ${OUTDIR}
-    - mkdir -p ${BLDDIR}
+    # mkdir -p ${BLDDIR}
     - cp -r $CI_PROJECT_DIR ${BLDDIR}
     - pushd ${BLDDIR}
     - rm -rf RPMS/*
-    - mb2 -t SailfishOS-$SFOS_VERSION-$TARGET --specfile ./rpm/$SPECNAME --no-fix-version prepare --enable-debug $BLDDIR | tee $OUTDIR/prepare.log
+    - pwd
+    - ls -l
+    - mb2 -t SailfishOS-$SFOS_VERSION-$TARGET --specfile ./qmltermwidget/rpm/qmltermwidget.spec --no-fix-version prepare --enable-debug $BLDDIR | tee $OUTDIR/prepare.log
+    - pwd
+    - ls -l
+    - ls -l $CI_PROJECT_DIR
     - cp -r rpm/* ${OUTDIR}/
     # cp -r files/* qml/* rpm/
-    - mb2 -t SailfishOS-$SFOS_VERSION-$TARGET --specfile ./rpm/$SPECNAME --no-fix-version build   --enable-debug $BLDDIR | tee $OUTDIR/build.log
+    - mb2 -t SailfishOS-$SFOS_VERSION-$TARGET --specfile ./qmltermwidget/rpm/qmltermwidget.spec --no-fix-version build   --enable-debug $BLDDIR | tee $OUTDIR/build.log
+    - mb2 -t SailfishOS-$SFOS_VERSION-$TARGET --specfile ./rpm/$SPECFILE --no-fix-version build   --enable-debug $BLDDIR | tee $OUTDIR/build.log
+    - pwd
+    - ls -l
+    - ls -l $CI_PROJECT_DIR
     - mkdir -p $OUTDIR/$SFOS_VERSION
     - cp -r RPMS/* ${OUTDIR}/$SFOS_VERSION
     - cp -r qml/*ts ${OUTDIR}/
