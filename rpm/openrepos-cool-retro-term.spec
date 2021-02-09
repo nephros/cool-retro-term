@@ -27,7 +27,7 @@ Requires:   libQt5Gui5
 Requires:   libqt5-qtdeclarative
 Requires:   libqt5-qtgraphicaleffects
 BuildRequires:  pkgconfig(Qt5Core)
-BuildRequires:  pkgconfig(Qt5Declarative)
+BuildRequires:  pkgconfig(Qt5Qml)
 BuildRequires:  pkgconfig(Qt5Gui)
 BuildRequires:  pkgconfig(Qt5Quick)
 BuildRequires:  desktop-file-utils

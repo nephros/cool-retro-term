@@ -26,7 +26,7 @@ Requires:
     - libqt5-qtgraphicaleffects
 PkgConfigBR:
     - Qt5Core
-    - Qt5Declarative
+    - Qt5Qml
     - Qt5Gui
     - Qt5Quick
 Configure: none
