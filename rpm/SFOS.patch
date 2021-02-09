@@ -1,5 +1,5 @@
---- cool-retro-term.desktop_	2021-02-09 12:14:43.338467966 +0100
-+++ cool-retro-term.desktop	2021-02-09 12:17:17.057875642 +0100
+--- a/cool-retro-term.desktop	2021-02-09 12:14:43.338467966 +0100
++++ b/cool-retro-term.desktop	2021-02-09 12:17:17.057875642 +0100
 @@ -1,11 +1,10 @@
  [Desktop Entry]
 +X-Nemo-Application-Type=qtquick2

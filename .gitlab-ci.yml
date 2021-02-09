@@ -29,9 +29,6 @@ variables:
     TARGET: armv7hl
     SPECNAME: openrepos-cool-retro-term.spec
     YAMLNAME: openrepos-cool-retro-term.yaml
-  before_script:
-    - mkdir -p $CI_PROJECT_DIR/qmltermwidget/rpm/
-    - cp $CI_PROJECT_DIR/rpm/qmltermwidget.spec $CI_PROJECT_DIR/qmltermwidget/rpm/
   script:
     - OUTDIR=$CI_PROJECT_DIR/output
     - BLDDIR=~/build
