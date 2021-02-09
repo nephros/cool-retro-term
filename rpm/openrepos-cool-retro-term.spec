@@ -74,7 +74,7 @@ rm -rf %{buildroot}
 make INSTALL_ROOT=%{buildroot} install
 # rename files
 mv %{buildroot}%{_bindir}/%{upstream_name} %{buildroot}%{_bindir}/%{name}
-mv %{buildroot}%{_datadir}/%{upstream_name} %{buildroot}%{_datadir}/%{name}
+#mv %{buildroot}%{_datadir}/%{upstream_name} %{buildroot}%{_datadir}/%{name}
 mv %{buildroot}%{_datadir}/applications/%{upstream_name}.desktop %{buildroot}%{_datadir}/applications/%{name}.desktop
 # << install post
 
@@ -86,7 +86,6 @@ desktop-file-install --delete-original       \
 %defattr(-,root,root,-)
 %{_bindir}/%{name}
 %{_libdir}/qt5/qml/
-%{_datadir}/%{name}/qml/
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/icons/hicolor/*/*/*
 # >> files

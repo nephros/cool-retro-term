@@ -38,6 +38,6 @@ Builder: qtc5
 Files:
     - "%{_bindir}/%{name}"
     - "%{_libdir}/qt5/qml/"
-    - "%{_datadir}/%{name}/qml/"
+    # "%{_datadir}/%{name}/qml/"
     - "%{_datadir}/applications/%{name}.desktop"
     - "%{_datadir}/icons/hicolor/*/*/*"
