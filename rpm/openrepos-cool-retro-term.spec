@@ -76,7 +76,7 @@ make INSTALL_ROOT=%{buildroot} install
 mv %{buildroot}%{_bindir}/%{upstream_name} %{buildroot}%{_bindir}/%{name}
 #mv %{buildroot}%{_datadir}/%{upstream_name} %{buildroot}%{_datadir}/%{name}
 mv %{buildroot}%{_datadir}/applications/%{upstream_name}.desktop %{buildroot}%{_datadir}/applications/%{name}.desktop
-for f in %{buildroot}%{_datadir}/icons/hicolor/*/apps/{upstream_name}.png; do
+for f in %{buildroot}%{_datadir}/icons/hicolor/*/apps/%{upstream_name}.png; do
 mv ${f}  ${f%/*}/%{name}.png
 done
 # << install post
