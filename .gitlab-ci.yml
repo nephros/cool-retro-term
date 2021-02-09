@@ -39,7 +39,7 @@ variables:
     - rm -rf RPMS/*
     - mb2 -t SailfishOS-$SFOS_VERSION-$TARGET --specfile ./rpm/$SPECNAME --no-fix-version prepare --enable-debug $BLDDIR | tee $OUTDIR/prepare.log
     - cp -r rpm/* ${OUTDIR}/
-    - cp -r files/* qml/* rpm/
+    # cp -r files/* qml/* rpm/
     - mb2 -t SailfishOS-$SFOS_VERSION-$TARGET --specfile ./rpm/$SPECNAME --no-fix-version build   --enable-debug $BLDDIR | tee $OUTDIR/build.log
     - mkdir -p $OUTDIR/$SFOS_VERSION
     - cp -r RPMS/* ${OUTDIR}/$SFOS_VERSION

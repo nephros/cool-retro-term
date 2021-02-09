@@ -1,0 +1,13 @@
+* Tue Feb  9 2021 Nephros <sailfish@nephros.org> 1.1.1-1
+ -package for SailfishOS
+
+* Sun Sep  7 14:03:35 UTC 2014 - kamikazow@web.de
+- cool-old-term has been renamed to cool-retro-term
+- Ported the spec file to CRT's new, way nicer build system <https://github.com/Swordfish90/cool-retro-term/pull/105>
+
+* Fri Aug 29 20:56:20 UTC 2014 - kamikazow@web.de
+- Fixed: QtDeclarative-devel is required for "qmlscene" binary
+
+* Fri Aug  1 14:09:35 UTC 2014 - kamikazow@web.de
+- First build
+- cool-old-term 0.9

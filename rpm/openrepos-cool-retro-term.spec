@@ -8,6 +8,10 @@ Name:       openrepos-cool-retro-term
 # >> macros
 # << macros
 
+%{!?qtc_qmake:%define qtc_qmake %qmake}
+%{!?qtc_qmake5:%define qtc_qmake5 %qmake5}
+%{!?qtc_make:%define qtc_make make}
+%{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    Cool Retro Terminal
 Version:    1.1.1
 Release:    1
@@ -49,8 +53,9 @@ customizable, and reasonably lightweight.
 qmake-qt5
 # << build pre
 
+%qtc_qmake5 
 
-make %{?_smp_mflags}
+%qtc_make %{?_smp_mflags}
 
 # >> build post
 # << build post
@@ -59,7 +64,7 @@ make %{?_smp_mflags}
 rm -rf %{buildroot}
 # >> install pre
 # << install pre
-%make_install
+%qmake5_install
 
 # >> install post
 # Work around weird qmake behaviour: http://davmac.wordpress.com/2007/02/21/qts-qmake/

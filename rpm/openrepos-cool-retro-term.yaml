@@ -30,10 +30,10 @@ PkgConfigBR:
     - Qt5Gui
     - Qt5Quick
 Configure: none
-Builder: make
+Builder: qtc5
 Files:
-    - "%doc gpl-2.0.txt gpl-3.0.txt README.md"
     - "%{_bindir}/%{name}"
-    - "%{_libdir}/qt5/qml/"
+    #- "%{_libdir}/qt5/qml/"
+    - "%{_datadir}/%{name}/qml/"
     - "%{_datadir}/applications/%{name}.desktop"
     - "%{_datadir}/icons/hicolor/*/*/*"
