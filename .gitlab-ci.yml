@@ -25,7 +25,7 @@ variables:
       - "$CI_PROJECT_DIR/myrepo"
   variables:
     GIT_SUBMODULE_STRATEGY: recursive
-    SFOS_VERSION: 3.4.0.24
+    SFOS_VERSION: 4.0.1.45
     TARGET: armv7hl
     SPECNAME: openrepos-cool-retro-term.spec
     YAMLNAME: openrepos-cool-retro-term.yaml
