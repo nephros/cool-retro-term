@@ -21,7 +21,8 @@ License:    GPL-3.0+
 URL:        https://github.com/Swordfish90/cool-retro-term
 Source0:    %{name}-%{version}.tar.xz
 Source100:  openrepos-cool-retro-term.yaml
-Patch0:     SFOS.patch
+Patch0:     SFOS_desktop.patch
+Patch1:     SFOS_build.patch
 BuildRequires:  pkgconfig(Qt5Core)
 BuildRequires:  pkgconfig(Qt5Qml)
 BuildRequires:  pkgconfig(Qt5Gui)
@@ -37,8 +38,10 @@ customizable, and reasonably lightweight.
 %prep
 %setup -q -n %{name}-%{version}
 
-# SFOS.patch
+# SFOS_desktop.patch
 %patch0 -p1
+# SFOS_build.patch
+%patch1 -p1
 # >> setup
 # << setup
 

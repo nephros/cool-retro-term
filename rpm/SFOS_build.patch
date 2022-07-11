@@ -1,0 +1,11 @@
+diff -u a/cool-retro-term.pro b/cool-retro-term.pro
+--- a/cool-retro-term.pro	2022-07-11 17:58:59.938948880 +0200
++++ b/cool-retro-term.pro	2022-07-11 17:59:13.295160381 +0200
+@@ -2,7 +2,6 @@
+ 
+ CONFIG += ordered
+ 
+-SUBDIRS += qmltermwidget
+ SUBDIRS += app
+ 
+ desktop.files += cool-retro-term.desktop
