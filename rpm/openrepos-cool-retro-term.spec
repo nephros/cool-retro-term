@@ -23,6 +23,7 @@ Source0:    %{name}-%{version}.tar.xz
 Source100:  openrepos-cool-retro-term.yaml
 Patch0:     SFOS_desktop.patch
 Patch1:     SFOS_build.patch
+Requires:   qmltermwidget
 BuildRequires:  pkgconfig(Qt5Core)
 BuildRequires:  pkgconfig(Qt5Qml)
 BuildRequires:  pkgconfig(Qt5Gui)
