@@ -17,6 +17,11 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 Name:       qmltermwidget
+
+%{!?qtc_qmake:%define qtc_qmake %qmake}
+%{!?qtc_qmake5:%define qtc_qmake5 %qmake5}
+%{!?qtc_make:%define qtc_make make}
+%{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    QML Terminal Widget
 Version:    1.0
 Release:    0%{?dist}
@@ -40,14 +45,14 @@ QMLTermWidget is a projekt to enable developers to embed a terminal emulator in 
 %setup -q -n %{name}-%{version}/%{name}
 
 %build
-qmake-qt5
-#make %%{?_smp_mflags}
-%make_build
+%qtc_qmake5
+
+%qtc_make %{?_smp_mflags}
 
 %install
 # Work around weird qmake behaviour: http://davmac.wordpress.com/2007/02/21/qts-qmake/
 #make INSTALL_ROOT=%%{buildroot} install
-%make_install
+%qmake5_install
 
 %files
 %defattr(-,root,root,-)
