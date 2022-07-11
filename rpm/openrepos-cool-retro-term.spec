@@ -17,7 +17,7 @@ Summary:    Cool Retro Terminal
 Version:    1.1.1
 Release:    1
 Group:      System/Console
-License:    GPL-3.0+
+License:    GPLv3+
 URL:        https://github.com/Swordfish90/cool-retro-term
 Source0:    %{name}-%{version}.tar.xz
 Source100:  openrepos-cool-retro-term.yaml
