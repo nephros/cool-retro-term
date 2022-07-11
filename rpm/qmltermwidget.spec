@@ -16,9 +16,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-# for OBS linked spec:
-%define tarballname openrepos-cool-retro-term
-
 Name:       qmltermwidget
 Summary:    QML Terminal Widget
 Version:    1.0
@@ -43,7 +40,7 @@ BuildRequires: pkgconfig(Qt5Quick)
 QMLTermWidget is a projekt to enable developers to embed a terminal emulator in QML-based applications.
 
 %prep
-%setup -q -n %{tarballname}-%{version}/qmltermwidget
+%setup -q -n %{name}-%{version}/qmltermwidget
 
 %build
 qmake-qt5
