@@ -32,6 +32,7 @@ BuildRequires: ( pkgconfig(Qt5Declarative) or qt5-qtdeclarative-devel )
 BuildRequires: qt5-qtdeclarative-qtquick-devel
 BuildRequires: pkgconfig(Qt5Gui)
 BuildRequires: pkgconfig(Qt5Quick)
+BuildRequires: qt5-qtwidgets-devel
 
 %description
 QMLTermWidget is a projekt to enable developers to embed a terminal emulator in QML-based applications.
