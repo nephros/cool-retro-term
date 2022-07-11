@@ -16,7 +16,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-%define     tarball_name openrepos-cool-retro-term
 Name:       qmltermwidget
 Summary:    QML Terminal Widget
 Version:    1.0
@@ -25,7 +24,7 @@ Group:      System/X11/Terminals
 License:    GPL-2.0+
 URL:        https://github.com/Swordfish90/qmltermwidget
 
-Source:    %{tarball_name}-%{version}.tar.xz
+Source:    %{name}-%{version}.tar.xz
 
 BuildRequires: pkgconfig(Qt5Core)
 BuildRequires: ( pkgconfig(Qt5Declarative) or qt5-qtdeclarative-devel )
@@ -38,7 +37,7 @@ BuildRequires: qt5-qtwidgets-devel
 QMLTermWidget is a projekt to enable developers to embed a terminal emulator in QML-based applications.
 
 %prep
-%setup -q -n %{tarball_name}-%{version}/%{name}
+%setup -q -n %{name}-%{version}/%{name}
 
 %build
 qmake-qt5
