@@ -27,7 +27,7 @@ BuildRequires:  pkgconfig(Qt5Core)
 BuildRequires:  pkgconfig(Qt5Qml)
 BuildRequires:  pkgconfig(Qt5Gui)
 BuildRequires:  pkgconfig(Qt5Quick)
-BuildRequires:  pkgconfig(qt5-qtwidgets-devel)
+BuildRequires:  pkgconfig(Qt5Widgets)
 BuildRequires:  desktop-file-utils
 
 %description

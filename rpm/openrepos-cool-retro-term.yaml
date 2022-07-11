@@ -23,7 +23,7 @@ PkgConfigBR:
     - Qt5Qml
     - Qt5Gui
     - Qt5Quick
-    - qt5-qtwidgets-devel
+    - Qt5Widgets
 Configure: none
 Builder: qtc5
 Files:
