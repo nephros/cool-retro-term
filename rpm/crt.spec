@@ -53,16 +53,6 @@ rm -rf %{buildroot}
 
 %make_install
 
-# Work around weird qmake behaviour: http://davmac.wordpress.com/2007/02/21/qts-qmake/
-#make INSTALL_ROOT=%%{buildroot} install
-
-# rename files
-mv %{buildroot}%{_bindir}/%{name} %{buildroot}%{_bindir}/%{name}
-mv %{buildroot}%{_datadir}/applications/%{name}.desktop %{buildroot}%{_datadir}/applications/%{name}.desktop
-for f in %{buildroot}%{_datadir}/icons/hicolor/*/apps/%{name}.png; do
-mv ${f}  ${f%/*}/%{name}.png
-done
-
 desktop-file-install --delete-original       \
   --dir %{buildroot}%{_datadir}/applications             \
    %{buildroot}%{_datadir}/applications/*.desktop
