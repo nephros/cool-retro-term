@@ -1,5 +1,9 @@
+* Thu Apr 27 2023 <sailfish@nephros.org> 1.1.1-1
+ - package for SailfishOS
+ - move to qt5.15
+
 * Tue Feb  9 2021 Nephros <sailfish@nephros.org> 1.1.1-1
- -package for SailfishOS
+ - package for SailfishOS
 
 * Sun Sep  7 14:03:35 UTC 2014 - kamikazow@web.de
 - cool-old-term has been renamed to cool-retro-term
