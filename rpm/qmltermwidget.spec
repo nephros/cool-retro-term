@@ -31,6 +31,7 @@ URL:        https://github.com/Swordfish90/qmltermwidget
 
 Source:    %{name}-%{version}.tar.xz
 
+BuildRequires: pkgconfig(sailfishapp)
 BuildRequires: pkgconfig(Qt5Core)
 BuildRequires: ( pkgconfig(Qt5Declarative) or qt5-qtdeclarative-devel )
 BuildRequires: qt5-qtdeclarative-qtquick-devel
