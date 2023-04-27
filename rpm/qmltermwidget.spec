@@ -15,13 +15,14 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
+%global qt_version 5.15.8
 
 Name:       qmltermwidget
 
-%{!?qtc_qmake:%define qtc_qmake %qmake}
-%{!?qtc_qmake5:%define qtc_qmake5 %qmake5}
-%{!?qtc_make:%define qtc_make make}
-%{?qtc_builddir:%define _builddir %qtc_builddir}
+# filter qml provides
+%global __provides_exclude_from ^%{_opt_qt5_archdatadir}/qml/.*\\.so$
+%{?opt_qt5_default_filter}
+
 Summary:    QML Terminal Widget
 Version:    1.0
 Release:    0%{?dist}
@@ -32,12 +33,16 @@ URL:        https://github.com/Swordfish90/qmltermwidget
 Source:    %{name}-%{version}.tar.xz
 
 BuildRequires: pkgconfig(sailfishapp)
-BuildRequires: pkgconfig(Qt5Core)
-BuildRequires: ( pkgconfig(Qt5Declarative) or qt5-qtdeclarative-devel )
-BuildRequires: qt5-qtdeclarative-qtquick-devel
-BuildRequires: pkgconfig(Qt5Gui)
-BuildRequires: pkgconfig(Qt5Quick)
-BuildRequires: qt5-qtwidgets-devel
+
+BuildRequires: opt-qt5-qtbase-devel >= %{qt_version}
+BuildRequires: opt-qt5-qtbase-private-devel
+%{?_opt_qt5:Requires: %{_opt_qt5}%{?_isa} = %{_opt_qt5_version}}
+BuildRequires: opt-qt5-qtdeclarative-devel
+
+Requires: opt-qt5-qtdeclarative%{?_isa} >= %{qt_version}
+Requires: opt-qt5-qtgraphicaleffects%{_isa} >= %{qt_version}
+Requires: opt-qt5-qtbase-gui >= %{qt_version}
+
 
 %description
 QMLTermWidget is a projekt to enable developers to embed a terminal emulator in QML-based applications.
@@ -46,18 +51,20 @@ QMLTermWidget is a projekt to enable developers to embed a terminal emulator in 
 %setup -q -n %{name}-%{version}/%{name}
 
 %build
-%qtc_qmake5
+export QTDIR=%{_opt_qt5_prefix}
+touch .git
 
-%qtc_make %{?_smp_mflags}
+%{opt_qmake_qt5}
+%make_build
 
 %install
 # Work around weird qmake behaviour: http://davmac.wordpress.com/2007/02/21/qts-qmake/
 #make INSTALL_ROOT=%%{buildroot} install
-%qmake5_install
+%make_install
 
 %files
 %defattr(-,root,root,-)
-%{_libdir}/qt5/qml/
+%{_opt_qt5_qmldir}/QMLTermWidget/*
 
 %changelog
 * Mon Dec 15 21:41:00 UTC 2014 - kamikazow@web.de
