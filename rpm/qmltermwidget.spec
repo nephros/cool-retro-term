@@ -24,7 +24,7 @@ Name:       qmltermwidget
 %{?opt_qt5_default_filter}
 
 Summary:    QML Terminal Widget
-Version:    1.0
+Version:    0.2.0
 Release:    0%{?dist}
 Group:      System/X11/Terminals
 License:    GPL-2.0+
