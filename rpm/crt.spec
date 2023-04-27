@@ -1,10 +1,6 @@
 %global qt_version 5.15.8
 
-Name:       openrepos-cool-retro-term
-
-# >> macros
-# << macros
-%define upstream_name cool-retro-term
+Name:       cool-retro-term
 
 Summary:    Cool Retro Terminal
 Version:    1.2.1
@@ -61,9 +57,9 @@ rm -rf %{buildroot}
 #make INSTALL_ROOT=%%{buildroot} install
 
 # rename files
-mv %{buildroot}%{_bindir}/%{upstream_name} %{buildroot}%{_bindir}/%{name}
-mv %{buildroot}%{_datadir}/applications/%{upstream_name}.desktop %{buildroot}%{_datadir}/applications/%{name}.desktop
-for f in %{buildroot}%{_datadir}/icons/hicolor/*/apps/%{upstream_name}.png; do
+mv %{buildroot}%{_bindir}/%{name} %{buildroot}%{_bindir}/%{name}
+mv %{buildroot}%{_datadir}/applications/%{name}.desktop %{buildroot}%{_datadir}/applications/%{name}.desktop
+for f in %{buildroot}%{_datadir}/icons/hicolor/*/apps/%{name}.png; do
 mv ${f}  ${f%/*}/%{name}.png
 done
 
