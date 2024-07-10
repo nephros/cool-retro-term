@@ -14,21 +14,6 @@ apps:
     desktop: usr/share/applications/cool-retro-term.desktop
     environment:
       QML2_IMPORT_PATH: $SNAP/usr/lib/x86_64-linux-gnu/qt5/qml
-    plugs:
-      - unity7
-      - x11
-      - desktop
-      - home
-      - network
-      - network-bind
-      - network-manager
-      - password-manager-service
-      - locale-control
-      - gsettings
-      - shutdown
-      - firewall-control
-      - process-control
-      - system-observe
       
 parts:
   desktop-qt5:
@@ -81,4 +66,6 @@ parts:
       - libgl1-mesa-dev
       - qtdeclarative5-dev-tools
       - qml-module-qtquick-extras
+      - qml-module-qt-labs-settings
+      - qml-module-qt-labs-folderlistmodel
 
