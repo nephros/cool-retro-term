@@ -14,7 +14,7 @@ Name:       openrepos-cool-retro-term
 %{!?qtc_make:%define qtc_make make}
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    Cool Retro Terminal
-Version:    1.1.1
+Version:    1.2.0
 Release:    1
 Group:      System/Console
 License:    GPLv3+
