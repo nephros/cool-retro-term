@@ -1,4 +1,4 @@
-%global qt_version 5.15.8
+%global qt_version 6.7.2
 
 Name:       cool-retro-term
 
@@ -15,15 +15,12 @@ Requires:   qmltermwidget
 
 BuildRequires: pkgconfig(sailfishapp)
 
-BuildRequires: opt-qt5-qtbase-devel >= %{qt_version}
-BuildRequires: opt-qt5-qtbase-private-devel
-%{?_opt_qt5:Requires: %{_opt_qt5}%{?_isa} = %{_opt_qt5_version}}
-BuildRequires: opt-qt5-qtdeclarative-devel
-BuildRequires: opt-qt5-qtquickcontrols2-devel
-
-Requires: opt-qt5-qtdeclarative%{?_isa} >= %{qt_version}
-Requires: opt-qt5-qtgraphicaleffects%{_isa} >= %{qt_version}
-Requires: opt-qt5-qtbase-gui >= %{qt_version}
+BuildRequires: gcc-c++
+BuildRequires: qt6-rpm-macros
+BuildRequires: qt6-qtbase-devel >= %{qt_version}
+BuildRequires: qt6-qtbase-private-devel
+BuildRequires: qt6-qtdeclarative-devel
+BuildRequires: qt6-qtquickcontrols2-devel
 
 %description
 cool-retro-term is a terminal emulator which tries to mimic the look and feel
@@ -38,19 +35,12 @@ customizable, and reasonably lightweight.
 %patch0 -p1
 # SFOS_build.patch
 %patch1 -p1
-# >> setup
-# << setup
 
 %build
-export QTDIR=%{_opt_qt5_prefix}
-touch .git
-
-%{opt_qmake_qt5}
+%{_qmake_qt6}
 %make_build
 
 %install
-rm -rf %{buildroot}
-
 %make_install
 
 desktop-file-install --delete-original       \

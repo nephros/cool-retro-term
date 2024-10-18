@@ -15,13 +15,9 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
-%global qt_version 5.15.8
+%global qt_version 6.7.2
 
 Name:       qmltermwidget
-
-# filter qml provides
-%global __provides_exclude_from ^%{_opt_qt5_archdatadir}/qml/.*\\.so$
-%{?opt_qt5_default_filter}
 
 Summary:    QML Terminal Widget
 Version:    0.2.0
@@ -34,15 +30,11 @@ Source:    %{name}-%{version}.tar.xz
 
 BuildRequires: pkgconfig(sailfishapp)
 
-BuildRequires: opt-qt5-qtbase-devel >= %{qt_version}
-BuildRequires: opt-qt5-qtbase-private-devel
-%{?_opt_qt5:Requires: %{_opt_qt5}%{?_isa} = %{_opt_qt5_version}}
-BuildRequires: opt-qt5-qtdeclarative-devel
-
-Requires: opt-qt5-qtdeclarative%{?_isa} >= %{qt_version}
-Requires: opt-qt5-qtgraphicaleffects%{_isa} >= %{qt_version}
-Requires: opt-qt5-qtbase-gui >= %{qt_version}
-
+BuildRequires: gcc-c++
+BuildRequires: qt6-rpm-macros
+BuildRequires: qt6-qtbase-devel >= %{qt_version}
+BuildRequires: qt6-qtbase-private-devel
+BuildRequires: qt6-qtdeclarative-devel
 
 %description
 QMLTermWidget is a projekt to enable developers to embed a terminal emulator in QML-based applications.
@@ -51,21 +43,12 @@ QMLTermWidget is a projekt to enable developers to embed a terminal emulator in 
 %setup -q -n %{name}-%{version}/%{name}
 
 %build
-export QTDIR=%{_opt_qt5_prefix}
-touch .git
-
-%{opt_qmake_qt5}
+%{_qmake_qt5}
 %make_build
 
 %install
-# Work around weird qmake behaviour: http://davmac.wordpress.com/2007/02/21/qts-qmake/
-#make INSTALL_ROOT=%%{buildroot} install
 %make_install
 
 %files
 %defattr(-,root,root,-)
-%{_opt_qt5_qmldir}/QMLTermWidget/*
-
-%changelog
-* Mon Dec 15 21:41:00 UTC 2014 - kamikazow@web.de
-- First build
+%{_qt6_qmldir}/QMLTermWidget/*
