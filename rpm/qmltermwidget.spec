@@ -35,6 +35,7 @@ BuildRequires: qt6-rpm-macros
 BuildRequires: qt6-qtbase-devel >= %{qt_version}
 BuildRequires: qt6-qtbase-private-devel
 BuildRequires: qt6-qtdeclarative-devel
+BuildRequires: pkgconfig(Qt6Core5Compat)
 
 %description
 QMLTermWidget is a projekt to enable developers to embed a terminal emulator in QML-based applications.
@@ -43,6 +44,9 @@ QMLTermWidget is a projekt to enable developers to embed a terminal emulator in 
 %setup -q -n %{name}-%{version}/%{name}
 
 %build
+# fatal error: 'QTextCodec' file not found
+# fatal error: 'QRegExp' file not found
+printf '\ngreaterThan(QT_MAJOR_VERSION,5): QT += core5compat\n' >> qmltermwidget.pro
 %{qmake_qt6}
 %make_build
 
